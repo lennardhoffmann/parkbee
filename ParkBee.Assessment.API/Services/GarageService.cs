@@ -32,7 +32,6 @@ namespace Parkbee_API.Services
             return garages;
         }
 
-
         public async Task<Garage> GetByGarageId(int id)
         {
             if (id < 1)
@@ -47,6 +46,25 @@ namespace Parkbee_API.Services
                     garage.Doors = await _doorService.GetDoorsForGarage(id);
 
                 return garage;
+            }
+        }
+
+        public async Task<Garage> CheckStatus(int id)
+        {
+            if (id < 1)
+            {
+                return null;
+            }
+            else
+            {
+                var doors = await new GarageDoorService(_context).GetDoorsForGarage(id);
+
+                foreach (var door in doors)
+                {
+                    await new GarageDoorService(_context).CheckDoorStatus(door.Serialnumber, id, door.Id);
+                }
+
+                return await GetByGarageId(id);
             }
 
         }

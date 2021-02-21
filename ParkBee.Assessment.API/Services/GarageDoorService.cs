@@ -136,8 +136,6 @@ namespace Parkbee_API.Services
             }
             else
                 return new DoorResponse { Code = "service_unavailable", Message = "Door could not be found", Success = false };
-
-
         }
 
         public bool PingGarageDoor(string ip)

@@ -9,7 +9,6 @@ export default _ => {
     const handleClick = _ => {
         GarageService.GetGarageDetails().then(res => {
             if (res) {
-                console.log(res)
                 StateStore.publish(Topics.Garages, res, true)
             }
         })

@@ -46,5 +46,28 @@ namespace ParkBee.Assessment.API.UnitTests
 
             Assert.Null(garage.Exception);
         }
+
+        [Fact]
+        public void CheckGarageStatusForValidGarage()
+        {
+            var context = new DatabaseTest().CreateContext();
+            SeedingService.SeedDb(context);
+
+            var response = new GarageService(context).CheckStatus(1).Result;
+
+            Assert.NotNull(response);
+            Assert.IsType<Garage>(response);
+        }
+
+        [Fact]
+        public void CheckGarageStatusForInvalidGarage()
+        {
+            var context = new DatabaseTest().CreateContext();
+            SeedingService.SeedDb(context);
+
+            var response = new GarageService(context).CheckStatus(0);
+
+            Assert.Null(response.Exception);
+        }
     }
 }

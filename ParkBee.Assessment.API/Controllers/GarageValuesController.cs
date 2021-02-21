@@ -84,7 +84,22 @@ namespace Parkbee_API.Controllers
         {
             try
             {
-                var response = await _doorService.OpenGarageDoor(doorSerial);
+                return new OkObjectResult(await _doorService.OpenGarageDoor(doorSerial));
+            }
+            catch (Exception ex)
+            {
+                return ExceptionResponse.RespondWith(ex);
+            }
+        }
+
+        [HttpGet("status/{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        public async Task<ActionResult<Garage>> CheckGarageStatus(int id)
+        {
+            try
+            {
+                var response = await _garageService.CheckStatus(id);
 
                 return new OkObjectResult(response);
             }
