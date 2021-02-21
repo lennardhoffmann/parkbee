@@ -1,0 +1,11 @@
+**/.vs
+**/.vscode
+**/ParkBee.Assessment.API/bin
+**/ParkBee.Assessment.API/obj
+**/ParkBee.Assessment.UI/bin
+**/ParkBee.Assessment.UI/obj
+**/ParkBee.Assessment.API.UnitTests/bin
+**/ParkBee.Assessment.API.UnitTests/obj
+*.sqlite
+.*suo
+

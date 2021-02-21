@@ -1,0 +1,41 @@
+﻿.details-container {
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+    width: 95%;
+    padding: 1vh;
+    border: 0.3vh solid grey;
+    border-radius: 2vh;
+    flex-wrap: wrap;
+}
+
+.inner-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hdr {
+    align-self: center;
+    font-size: 2.5vh;
+    margin-bottom: 1vh;
+}
+
+.main-block {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1vh;
+}
+
+.card-block {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    padding: 1vh;
+    margin-top: 1vh;
+}
