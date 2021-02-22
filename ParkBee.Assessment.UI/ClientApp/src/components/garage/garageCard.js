@@ -55,6 +55,6 @@ export default props => {
         <label className='garage-lbl'>Available Spaces: <strong>{available}</strong></label>
         <label className='garage-lbl'>Zone Nr: <strong>{zone}</strong></label>
         <label className='garage-lbl'>Country: <strong>{country}</strong></label>
-        <Button size='small' color='secondary' variant='contained' style={{ fontSize: '1.2vh', width: '20%' }} disabled={isDisabled} onClick={_ => handleStatusCheck()}>Check Garage Status</Button>
+        <Button size='small' variant='contained' style={{ fontSize: '1.2vh', width: '20%', backgroundColor: '#3da898' }} disabled={isDisabled} onClick={_ => handleStatusCheck()}>Check Garage Status</Button>
     </div>
 }
