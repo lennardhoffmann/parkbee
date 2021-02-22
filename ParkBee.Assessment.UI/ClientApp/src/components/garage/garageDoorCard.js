@@ -105,15 +105,15 @@ export default props => {
 
     return <div className='door-container'>
         <label className='door-lbl'>ID: <strong>{props.doorDetails.serialnumber}</strong></label>
-        <label className='door-lbl'>Open status: <strong>{isOpen || props.doorDetails.isOpen ? 'Open' : "Closed"}</strong></label>
+        <label className='door-lbl'>Open status: <strong>{checkIfOpen() ? 'Open' : "Closed"}</strong></label>
         <div className='door-status-container'>
             <label style={{ fontSize: '1.5vh', marginRight: '2vw', verticalAlign: 'center' }}>Status</label>
             <div className='door-status-div' style={{ backgroundColor: checkStatus() ? 'green' : 'red' }}>{checkStatus() ? 'Online' : 'Offline'}</div>
         </div>
         {message && < label className='door-lbl' style={{ alignSelf: 'center', fontStyle: 'italic' }}><strong>{message}</strong></label>}
         <div className='door-btn-container'>
-            {status && <Button color='primary' size='small' variant='contained' style={{ fontSize: '1.2vh' }} onClick={_ => toggleDoor()} disabled={openDisabled}>{checkIfOpen() ? 'Close Door' : 'Open Door'}</Button>}
-            <Button size='small' color='secondary' variant='contained' style={{ marginLeft: status && '4vh', fontSize: '1.2vh' }} disabled={isDisabled} onClick={_ => handleIPCheck()}>Check Door Status</Button>
+            {checkStatus() && <Button color='primary' size='small' variant='contained' style={{ fontSize: '1.2vh' }} onClick={_ => toggleDoor()} disabled={openDisabled}>{checkIfOpen() ? 'Close Door' : 'Open Door'}</Button>}
+            <Button size='small' color='secondary' variant='contained' style={{ marginLeft: checkStatus() && '4vh', fontSize: '1.2vh' }} disabled={isDisabled} onClick={_ => handleIPCheck()}>Check Door Status</Button>
         </div>
     </div>
 }

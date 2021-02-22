@@ -19,24 +19,6 @@ public class GarageController
         _context = context;
     }
 
-    [HttpGet("test"), AllowAnonymous]
-    [ProducesResponseType(200)]
-    public async Task<ActionResult<IList<GarageDoor>>> TestGarages()
-    {
-        try
-        {
-            var response = await _context.GarageDoors.ToListAsync();
-
-            return new OkObjectResult(response);
-        }
-        catch (Exception ex)
-        {
-            return ExceptionResponse.RespondWith(ex);
-        }
-
-    }
-
-
     //Purely a test method to determine whether the api is running
     [HttpGet("base"), AllowAnonymous]
     public string Get() => "API RUNNING";

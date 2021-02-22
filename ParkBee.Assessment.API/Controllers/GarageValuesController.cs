@@ -17,8 +17,8 @@ namespace Parkbee_API.Controllers
     [Route("api/garages")]
     public class GarageValuesController : Controller
     {
-        private GarageService _garageService;
-        private GarageDoorService _doorService;
+        private readonly GarageService _garageService;
+        private readonly GarageDoorService _doorService;
         private readonly ApplicationDbContext _context;
 
         #region constructor
@@ -31,7 +31,7 @@ namespace Parkbee_API.Controllers
         #endregion constructor
 
         //Returns all the garages in the DB set
-        //Excludes the garage doors as they should only be accessed with the appropriategarage id
+        //Excludes the garage doors as they should only be accessed with the appropriate garage id
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
@@ -70,13 +70,15 @@ namespace Parkbee_API.Controllers
 
         }
 
-
+        //returns a specific garage door based on the serial number provided
         [HttpGet("serial/{serialNo}")]
         public async Task<GarageDoor> GetDoorBySerial(string serialNo)
         {
             return await _doorService.GetDoorBySerialNumber(serialNo);
         }
 
+
+        //Opens or closes a garage door based on the parameter payload received
         [HttpPost("{garageId}/doors/{doorId}/open")]
         [ProducesResponseType(200)]
         [ProducesResponseType(503)]
@@ -84,7 +86,7 @@ namespace Parkbee_API.Controllers
         {
             try
             {
-                    return new OkObjectResult(await _doorService.ToggleGarageDoor(payload.StringParam, garageId, doorId, payload.BoolParam));
+                return new OkObjectResult(await _doorService.ToggleGarageDoor(payload.StringParam, garageId, doorId, payload.BoolParam));
             }
             catch (Exception ex)
             {
@@ -92,6 +94,7 @@ namespace Parkbee_API.Controllers
             }
         }
 
+        //Checks the status of a specific garage door based on the payload received
         [HttpGet("status/{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
@@ -109,6 +112,7 @@ namespace Parkbee_API.Controllers
             }
         }
 
+        //Checks the status of a specific garage door
         [HttpPost("{garageId}/doors/{doorId}/status")]
         [ProducesResponseType(200)]
         [ProducesResponseType(503)]

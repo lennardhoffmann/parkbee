@@ -23,7 +23,12 @@ namespace Parkbee_API.Services
         }
         #endregion constructors
 
+
+        //returns all garages doors in the GarageDoor DbSet
         public async Task<List<GarageDoor>> GetAllDoors() => await _context.GarageDoors.ToListAsync();
+
+
+        //returns a l the garage doors for a specific garage based on the garage id provided
         public async Task<List<GarageDoor>> GetDoorsForGarage(int garageId)
         {
             if (garageId < 1)
@@ -33,9 +38,12 @@ namespace Parkbee_API.Services
             else
                 return await _context.GarageDoors.Where(x => x.GarageId == garageId).OrderBy(a => a.Id).ToListAsync();
         }
+
+        //returns a specific garage door in the GarageDoor DBSet based on the serial number provided
         public async Task<GarageDoor> GetDoorBySerialNumber(string serial) => await _context.GarageDoors.Where(x => x.Serialnumber == serial).FirstOrDefaultAsync();
 
 
+        //Opens or closes a garage door based on the boolean parameter provided
         public async Task<DoorResponse> ToggleGarageDoor(string serialNumber, int garageId, int id, bool isOpen)
         {
             var response = await _context.GarageDoors.Where(x => x.Serialnumber == serialNumber && x.GarageId == garageId && x.Id == id).FirstOrDefaultAsync();
@@ -97,6 +105,8 @@ namespace Parkbee_API.Services
                 return new DoorResponse { Code = "service_unavailable", Message = "Door could not be found", Success = false };
         }
 
+
+        //checks whether a specific garage door in the DbSet is online or offline
         public async Task<DoorResponse> CheckDoorStatus(string serialNumber, int garageId, int doorId)
         {
             var response = await _context.GarageDoors.Where(x => x.Serialnumber == serialNumber && x.GarageId == garageId && x.Id == doorId).FirstOrDefaultAsync();
@@ -157,6 +167,8 @@ namespace Parkbee_API.Services
                 return new DoorResponse { Code = "service_unavailable", Message = "Door could not be found", Success = false };
         }
 
+
+        //Pings an ip address and returns a bool value as to whether the ip is valid
         public bool PingGarageDoor(string ip)
         {
             bool pingable = false;

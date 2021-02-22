@@ -10,6 +10,7 @@ namespace Parkbee_API.Services
 {
     public static class SeedingService
     {
+        //Seeds the InMemorydatabse with generic data
         public static void SeedDb(ApplicationDbContext context)
         {
             context.Garages.AddRange(Enumerable.Range(1, 3).Select(s =>
@@ -31,6 +32,7 @@ namespace Parkbee_API.Services
             }
         }
 
+        //Seeds every garage with a random amount of garage door with generic data
         public static void GenerateDoors(ApplicationDbContext context, int garageId)
         {
             for (int i = 0; i < new Random().Next(1, 6); i++)

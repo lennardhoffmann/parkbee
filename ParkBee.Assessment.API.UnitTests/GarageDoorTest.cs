@@ -76,7 +76,6 @@ namespace ParkBee.Assessment.API.UnitTests
             SeedingService.SeedDb(context);
 
             var door = new GarageDoorService(context).GetDoorsForGarage(1).Result[0];
-
             var isPingable = new GarageDoorService(context).PingGarageDoor(door.IpAddress);
 
             if (isPingable)
@@ -98,6 +97,36 @@ namespace ParkBee.Assessment.API.UnitTests
             SeedingService.SeedDb(context);
 
             Assert.False(new GarageDoorService(context).CheckDoorStatus(Guid.NewGuid().ToString(), 0, 0).Result.Success);
+        }
+
+        [Fact]
+        public void ToogleDoorForValidGarageDoor()
+        {
+            var context = new DatabaseTest().CreateContext();
+            SeedingService.SeedDb(context);
+
+            var door = new GarageDoorService(context).GetDoorsForGarage(1).Result[0];
+            var isPingable = new GarageDoorService(context).PingGarageDoor(door.IpAddress);
+
+            if (isPingable)
+            {
+                Assert.True(new GarageDoorService(context).ToggleGarageDoor(door.Serialnumber, door.GarageId, door.Id, !door.IsOpen).Result.Success);
+                Assert.IsType<DoorResponse>(new GarageDoorService(context).CheckDoorStatus(door.Serialnumber, door.GarageId, door.Id).Result);
+            }
+            else
+            {
+                Assert.False(new GarageDoorService(context).ToggleGarageDoor(door.Serialnumber, door.GarageId, door.Id, !door.IsOpen).Result.Success);
+                Assert.IsType<DoorResponse>(new GarageDoorService(context).CheckDoorStatus(door.Serialnumber, door.GarageId, door.Id).Result);
+            }
+        }
+
+        [Fact]
+        public void ToogleDoorForInvalidGarageDoor()
+        {
+            var context = new DatabaseTest().CreateContext();
+            SeedingService.SeedDb(context);
+
+            Assert.False(new GarageDoorService(context).ToggleGarageDoor(Guid.NewGuid().ToString(), 0, 0, true).Result.Success);
         }
     }
 }

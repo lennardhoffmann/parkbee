@@ -25,13 +25,12 @@ namespace Parkbee_API.Services
         }
         #endregion constructors
 
-        public async Task<object> GetAllGarages()
-        {
-            var garages = await _context.Garages.Select(x => new { x.Name, x.GarageId, x.ZoneNumber, x.CountryCode }).ToListAsync();
 
-            return garages;
-        }
+        //Returns the name, id, zone number and country code of all garages in the Garage DBSet
+        public async Task<object> GetAllGarages() => await _context.Garages.Select(x => new { x.Name, x.GarageId, x.ZoneNumber, x.CountryCode }).ToListAsync();
 
+
+        //Returns a specific garage in the db set based on the id provided
         public async Task<Garage> GetByGarageId(int id)
         {
             if (id < 1)
@@ -49,6 +48,7 @@ namespace Parkbee_API.Services
             }
         }
 
+        //Checks the status of all garage doors of a specific garage based on the garage id
         public async Task<Garage> CheckStatus(int id)
         {
             if (id < 1)
