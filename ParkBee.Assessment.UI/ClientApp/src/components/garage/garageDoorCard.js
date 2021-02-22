@@ -30,7 +30,7 @@ export default props => {
 
                 setState({
                     status: true,
-                    isOpen: !isOpen
+                    isOpen: isOpen
                 })
 
             }
