@@ -36,10 +36,11 @@ namespace Parkbee_API.Services
         public async Task<GarageDoor> GetDoorBySerialNumber(string serial) => await _context.GarageDoors.Where(x => x.Serialnumber == serial).FirstOrDefaultAsync();
 
 
-        public async Task<DoorResponse> OpenGarageDoor(string serialNumber)
+        public async Task<DoorResponse> ToggleGarageDoor(string serialNumber, int garageId, int id, bool isOpen)
         {
-            var response = await _context.GarageDoors.Where(x => x.Serialnumber == serialNumber).FirstOrDefaultAsync();
+            var response = await _context.GarageDoors.Where(x => x.Serialnumber == serialNumber && x.GarageId == garageId && x.Id == id).FirstOrDefaultAsync();
             var isOnline = false;
+            var opened = isOpen ? "closed" : "opened";
 
             if (response != null)
             {
@@ -57,21 +58,39 @@ namespace Parkbee_API.Services
                     {
                         DoorSerial = response.Serialnumber,
                         ModifiedDate = DateTime.Now,
-                        PrevDoorStatus = response.IsOpen,
-                        CurrentDoorStatus = true
+                        PrevDoorOpen = response.IsOpen,
+                        CurrentDoorOpen = !isOpen
                     });
 
-                    response.IsOpen = true;
+                    response.IsOpen = !isOpen;
                     response.IsOnline = true;
 
                     _context.GarageDoors.Update(response);
                     _context.SaveChanges();
 
-                    return new DoorResponse { Code = "service_success", Message = "Door successfully opened", Success = true };
+                    return new DoorResponse { Code = "service_success", Message = $"Door successfully {opened}", Success = true };
                 }
                 else
                 {
-                    return new DoorResponse { Code = "service_unavailable", Message = $"Door with serial {response.Serialnumber} could not be opened", Success = false };
+
+                    if (response.IsOnline)
+                    {
+                        _context.DoorStates.AddRange(new DoorState
+                        {
+                            DoorSerial = response.Serialnumber,
+                            ModifiedDate = DateTime.Now,
+                            PrevDoorStatus = response.IsOpen,
+                            CurrentDoorStatus = false
+                        });
+
+                        response.IsOnline = false;
+
+                        _context.GarageDoors.Update(response);
+                        _context.SaveChanges();
+                    }
+
+
+                    return new DoorResponse { Code = "service_unavailable", Message = $"Door with serial {response.Serialnumber} could not be {opened}", Success = false };
                 }
             }
             else

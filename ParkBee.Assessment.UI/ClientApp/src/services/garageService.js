@@ -55,10 +55,39 @@ class _GarageService {
     }
 
     CheckDoorStatus = args => {
-        let url = `${apiRoot}${apiPath.getGarageDetails}/${args.garageId}/doors/${args.doorId}/status`;
-        let key = `bearer ${StateStore.retrieve(Topics.Details)['token']}`
+        var url = `${apiRoot}${apiPath.getGarageDetails}/${args.garageId}/doors/${args.doorId}/status`;
+        var key = `bearer ${StateStore.retrieve(Topics.Details)['token']}`
 
-        let body = { doorSerial: args.serial }
+        var body = { stringParam: args.serial }
+
+        return new Promise((resolve, reject) => {
+            fetch(url, {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': key
+                },
+                body: JSON.stringify(body),
+            })
+                .then((response) => {
+                    if (response.status !== 200)
+                        throw { status: response.status, message: response.message };
+                    return response.json();
+                })
+                .then((json) => {
+                    resolve(json);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        })
+    }
+
+    ToggleGaragedoor = args => {
+        var url = `${apiRoot}${apiPath.getGarageDetails}/${args.garageId}/doors/${args.doorId}/open`;
+        var key = `bearer ${StateStore.retrieve(Topics.Details)['token']}`
+
+        var body = { stringParam: args.serial, boolParam: args.isOpen }
 
         return new Promise((resolve, reject) => {
             fetch(url, {

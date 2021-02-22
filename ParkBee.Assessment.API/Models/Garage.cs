@@ -44,8 +44,9 @@ namespace ParkBee.Assessment.API.GarageModels
 
     }
 
-    public class SingleParamPayload
+    public class ParamPayload
     {
-        public string DoorSerial { get; set; }
+        public string StringParam { get; set; }
+        public bool BoolParam { get; set; }
     }
 }

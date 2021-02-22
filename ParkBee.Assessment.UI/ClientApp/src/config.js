@@ -3,7 +3,7 @@
 const apiPath = {
     getToken: 'token',
     getGarageDetails: 'api/garages',
-    getGarageStatus:'api/garages/status'
+    getGarageStatus: 'api/garages/status'
 }
 
 const dummyUser = {

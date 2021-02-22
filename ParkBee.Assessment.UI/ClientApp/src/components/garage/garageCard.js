@@ -20,7 +20,6 @@ export default props => {
     const { name, id, zone, capacity, available, country } = state
 
     useEffect(_ => {
-        console.log(props)
         if (!name || name.length < 1) {
             setState({
                 name: props.details.name,

@@ -24,6 +24,7 @@ export class GarageContainer extends Component {
                     <label className='hdr'>{`Welcome back ${StateStore.retrieve(Topics.User)['name']}`}</label>
                     <div className='main-block'>
                         <GarageCard details={this.state.garages} />
+                        <br/>
                         <label style={{ marginTop: '5vw' }}>Your Garage Doors:</label>
                         <div className='card-block'>
                             {this.state.garages.doors.map((g, i) => {

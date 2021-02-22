@@ -80,11 +80,11 @@ namespace Parkbee_API.Controllers
         [HttpPost("{garageId}/doors/{doorId}/open")]
         [ProducesResponseType(200)]
         [ProducesResponseType(503)]
-        public async Task<ActionResult<DoorResponse>> OpenGarageDoor(string doorSerial)
+        public async Task<ActionResult<DoorResponse>> ToggleGarageDoor([FromBody] ParamPayload payload, int garageId, int doorId)
         {
             try
             {
-                return new OkObjectResult(await _doorService.OpenGarageDoor(doorSerial));
+                    return new OkObjectResult(await _doorService.ToggleGarageDoor(payload.StringParam, garageId, doorId, payload.BoolParam));
             }
             catch (Exception ex)
             {
@@ -112,11 +112,11 @@ namespace Parkbee_API.Controllers
         [HttpPost("{garageId}/doors/{doorId}/status")]
         [ProducesResponseType(200)]
         [ProducesResponseType(503)]
-        public async Task<ActionResult<DoorResponse>> CheckGarageDoorStatus([FromBody] SingleParamPayload payload, int garageId, int doorId)
+        public async Task<ActionResult<DoorResponse>> CheckGarageDoorStatus([FromBody] ParamPayload payload, int garageId, int doorId)
         {
             try
             {
-                var response = await _doorService.CheckDoorStatus(payload.DoorSerial, garageId, doorId);
+                var response = await _doorService.CheckDoorStatus(payload.StringParam, garageId, doorId);
 
                 return new OkObjectResult(response);
             }
@@ -124,16 +124,6 @@ namespace Parkbee_API.Controllers
             {
                 return ExceptionResponse.RespondWith(ex);
             }
-        }
-
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }
